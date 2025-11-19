@@ -73,8 +73,14 @@ export default function Header() {
          
           <SignInButton>
             <Button
-              variant="ghost"
-              className="text-white/90 text-[15px] rounded-[30px]  font-semibold"
+            variant="ghost"
+            
+              className="cursor-pointer transition-all 
+              bg-white text-black px-6 py-2 rounded-full
+              border-black
+              border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px]
+              active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
+            
             >
               Sign in
             </Button>
@@ -83,7 +89,13 @@ export default function Header() {
        
           <SignUpButton>
             <Button
-              className="px-5 py-2 bg-white text-black rounded-[30px] text-[15px] font-semibold hover:bg-gray-100"
+              variant="ghost"
+              className="cursor-pointer transition-all 
+              bg-white text-black px-6 py-2 rounded-full
+              border-black
+              border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px]
+              active:border-b-[2px] active:brightness-90 active:translate-y-[2px]"
+         
             >
               Sign up
             </Button>
