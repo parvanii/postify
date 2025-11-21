@@ -89,7 +89,7 @@ export default function Header() {
        
           <SignUpButton>
             <Button
-              variant="ghost"
+            
               className="cursor-pointer transition-all 
               bg-white text-black px-6 py-2 rounded-full
               border-black

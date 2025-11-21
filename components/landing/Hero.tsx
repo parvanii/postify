@@ -15,7 +15,7 @@ const openSans = Open_Sans({
 export default function Hero() {
   return (
     <section className="w-full" style={{ backgroundColor: "#5523E8" }}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-28 lg:py-36 relative overflow-visible">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-40 lg:py-45 relative overflow-visible">
 
         <div className="text-center max-w-3xl mx-auto">
           <h1
