@@ -15,11 +15,11 @@ const openSans = Open_Sans({
 export default function Footer() {
   return (
     <footer
-      className="w-full text-white py-14" /* removed mt-24 to avoid big gap */
+      className="w-full text-white py-14"
       style={{ backgroundColor: "#5523E8" }}
     >
       <div className="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
-        {/* ---- LOGO + DESCRIPTION ---- */}
+    
         <div>
           <div className="flex items-center gap-3">
             <Image src="/logo.png" alt="Postify Logo" width={52} height={52} />
@@ -36,12 +36,12 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* ---- QUICK LINKS (use header headings here) ---- */}
+       
         <div>
           <h3 className="text-lg font-semibold mb-4">Quick links</h3>
           <ul className={`${openSans.className} space-y-3 text-white/85 text-[15px]`}>
             <li>
-              <Link href="/about" className="hover:text-white">About</Link>
+              <Link href="/" className="hover:text-white">Home</Link>
             </li>
             <li>
               <Link href="/features" className="hover:text-white">Features</Link>
@@ -55,7 +55,7 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* ---- SOCIAL ---- */}
+     
         <div>
           <h3 className="text-lg font-semibold mb-4">Social</h3>
           <ul className={`${openSans.className} space-y-3 text-white/85 text-[15px]`}>

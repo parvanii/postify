@@ -39,10 +39,10 @@ export default function Header() {
   className={`${openSans.className} hidden md:flex items-center gap-12 text-white text-[17px] font-semibold`}
 >
   <Link
-    href="/about"
+    href="/"
     className="transition-all duration-200 hover:opacity-80 hover:scale-105"
   >
-    About
+    Home
   </Link>
 
   <Link

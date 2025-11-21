@@ -26,10 +26,10 @@ const Foryou = () => {
     <section className="w-full py-24 md:py-32" style={{ backgroundColor: "#5523E8" }}>
       <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-start gap-16">
 
-        {/* LEFT */}
+      
         <div className="flex-1 text-left md:pr-8">
 
-          {/* 2-LINE HEADING */}
+
           <h2
             className={`${poppins.className} text-white text-5xl md:text-6xl font-medium leading-tight max-w-[420px]`}
           >
@@ -38,7 +38,7 @@ const Foryou = () => {
             for <span className="font-bold" style={{ color: "#B6E723" }}>YOU</span>
           </h2>
 
-          {/* BUTTON CLUSTER */}
+       
           <div className="mt-10 w-full max-w-[480px]">
             <div className="grid grid-cols-3 gap-x-4 gap-y-3">
 
@@ -80,7 +80,7 @@ const Foryou = () => {
           </div>
         </div>
 
-        {/* RIGHT SIDE IMAGE */}
+     
         <div className="w-full md:w-[550px] lg:w-[720px] flex-shrink-0">
           <div className="
             relative w-full h-[420px] md:h-[500px] lg:h-[600px]
