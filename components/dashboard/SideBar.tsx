@@ -1,0 +1,72 @@
+"use client";
+
+import React, { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"], weight: ["400", "600", "700"] });
+
+const SideBar = () => {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
+  const links = [
+    { label: "Home", href: "/", icon: "home" },
+    { label: "History", href: "/history", icon: "history" },
+    { label: "Settings", href: "/settings", icon: "settings" },
+  ];
+
+  const icon = {
+    home: (
+      <svg width="20" height="20" viewBox="0 0 24 24" stroke="white" fill="none" strokeWidth="1.6">
+        <path d="M3 11.5L12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V11.5z" />
+      </svg>
+    ),
+    history: (
+      <svg width="20" height="20" viewBox="0 0 24 24" stroke="white" fill="none" strokeWidth="1.6">
+        <path d="M21 12a9 9 0 1 1-2.6-6.1L21 5" />
+        <path d="M12 7v6l4 2" />
+      </svg>
+    ),
+    settings: (
+      <svg width="20" height="20" viewBox="0 0 24 24" stroke="white" fill="none" strokeWidth="1.6">
+        <circle cx="12" cy="12" r="3.5" />
+        <path d="M19.4 15.1c.2.5.3 1 .1 1.5-.3.7-.8 1.2-1.5 1.5-.5.2-1 .1-1.5-.1-.4-.2-.9-.1-1.2.2-.4.3-.7.7-.9 1.2-.2.5-.7.8-1.3.8s-1.1-.3-1.3-.8c-.2-.5-.5-.9-.9-1.2-.3-.3-.8-.4-1.2-.2-.5.2-1 .3-1.5.1-.7-.3-1.2-.8-1.5-1.5-.2-.5-.1-1 .1-1.5.2-.4.1-.9-.2-1.2-.3-.4-.7-.7-1.2-.9-.5-.2-.8-.7-.8-1.3s.3-1.1.8-1.3c.5-.2.9-.5 1.2-.9.3-.3.4-.8.2-1.2-.2-.5-.3-1-.1-1.5.3-.7.8-1.2 1.5-1.5.5-.2 1-.1 1.5.1.4.2.9.1 1.2-.2.4-.3.7-.7.9-1.2.2-.5.7-.8 1.3-.8s1.1.3 1.3.8c.2.5.5.9.9 1.2.3.3.8.4 1.2.2.5-.2 1-.3 1.5-.1.7.3 1.2.8 1.5 1.5.2.5.1 1-.1 1.5-.2.4-.1.9.2 1.2.3.4.7.7 1.2.9.5.2.8.7.8 1.3s-.3 1.1-.8 1.3c-.5.2-.9.5-1.2.9-.3.3-.4.8-.2 1.2z" />
+      </svg>
+    ),
+  };
+
+  return (
+    <aside className="fixed top-0 left-0 h-full w-64 bg-[#5523E8] text-white z-50 hidden md:flex flex-col">
+      <div className="px-6 pt-6 pb-3 flex items-center gap-3">
+
+        <Image src="/logo.png" alt="logo" width={44} height={44} />
+        <span className={`${inter.className} font-bold text-xl`}>Postify</span>
+      </div>
+
+      <nav className="flex-1 px-4 py-6 space-y-3">
+        {links.map((item) => {
+          const active = pathname === item.href;
+          return (
+            <Link key={item.href} href={item.href}>
+              <div
+                className={`flex items-center gap-4 px-4 py-3 rounded-lg cursor-pointer transition ${
+                  active ? "bg-white/20" : "hover:bg-white/10"
+                }`}
+              >
+                {icon[item.icon]}
+                <span className={`${inter.className} text-base font-medium`}>
+                  {item.label}
+                </span>
+              </div>
+            </Link>
+          );
+        })}
+      </nav>
+    </aside>
+  );
+};
+
+export default SideBar;
