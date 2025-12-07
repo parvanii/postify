@@ -6,19 +6,19 @@ import Image from "next/image";
 
 interface Props {
   selectedTemplate?: TEMPLATE;
-  onGenerate?: (formValues: any) => void;
+  userFormInput: any;
+  loading: boolean;
 }
 
 const tones = ["Polite", "Witty", "Enthusiastic", "Friendly", "Informational", "Funny", "Formal"];
 
-export default function FormSection({ selectedTemplate, onGenerate }: Props) {
+export default function FormSection({ selectedTemplate, userFormInput, loading }: Props) {
   const [prompt, setPrompt] = useState("");
   const [selectedTone, setSelectedTone] = useState<string>("Polite");
   const [approxWords, setApproxWords] = useState<number>(35);
   const [generateHashtags, setGenerateHashtags] = useState(false);
   const [includeEmoji, setIncludeEmoji] = useState(false);
   const [postsToGenerate, setPostsToGenerate] = useState<number>(3);
-  const [isLoading, setIsLoading] = useState(false);
 
   const formValues = useMemo(
     () => ({
@@ -33,13 +33,10 @@ export default function FormSection({ selectedTemplate, onGenerate }: Props) {
     [prompt, selectedTone, approxWords, generateHashtags, includeEmoji, postsToGenerate, selectedTemplate]
   );
 
+  // 🔥 FIXED — use userFormInput instead of onGenerate
   const handleGenerate = async (e?: React.FormEvent) => {
     e?.preventDefault();
-    if (!onGenerate) return;
-
-    setIsLoading(true);
-    await onGenerate(formValues);
-    setIsLoading(false);
+    await userFormInput(formValues);
   };
 
   return (
@@ -47,13 +44,12 @@ export default function FormSection({ selectedTemplate, onGenerate }: Props) {
       className="p-6 rounded-xl shadow-md border text-white"
       style={{
         background: "#5523E8",
-        width: "100%", 
+        width: "100%",
         height: "98vh",
       }}
     >
       <div className="flex items-start gap-4 mb-4">
         <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-white">
-         
           {selectedTemplate?.icon ? (
             <Image src={selectedTemplate.icon} alt="icon" width={40} height={40} className="object-contain" />
           ) : (
@@ -68,7 +64,6 @@ export default function FormSection({ selectedTemplate, onGenerate }: Props) {
         </div>
       </div>
 
-     
       <form onSubmit={handleGenerate}>
         <div className="mb-4">
           <label className="font-medium mb-2 block text-white">Your prompt</label>
@@ -82,7 +77,6 @@ export default function FormSection({ selectedTemplate, onGenerate }: Props) {
 
         <div className="mb-4">
           <label className="font-medium mb-2 block text-white">Tone of voice</label>
-
           <div className="flex flex-wrap gap-3">
             {tones.map((tone) => {
               const active = tone === selectedTone;
@@ -91,7 +85,9 @@ export default function FormSection({ selectedTemplate, onGenerate }: Props) {
                   key={tone}
                   onClick={() => setSelectedTone(tone)}
                   type="button"
-                  className={`px-4 py-2 rounded-md border text-sm transition ${active ? "text-white" : "text-white/70"}`}
+                  className={`px-4 py-2 rounded-md border text-sm transition ${
+                    active ? "text-white" : "text-white/70"
+                  }`}
                   style={{
                     background: active ? "#E823B6" : "transparent",
                     borderColor: "rgba(255,255,255,0.3)",
@@ -166,12 +162,14 @@ export default function FormSection({ selectedTemplate, onGenerate }: Props) {
 
         <button
           type="submit"
-          disabled={isLoading || !prompt.trim()}
+          disabled={loading || !prompt.trim()}
           className={`px-6 py-3 rounded-full font-semibold transition ${
-            isLoading || !prompt.trim() ? "bg-white/30 text-white/40 cursor-not-allowed" : "bg-white text-black hover:bg-white/90"
+            loading || !prompt.trim()
+              ? "bg-white/30 text-white/40 cursor-not-allowed"
+              : "bg-white text-black hover:bg-white/90"
           }`}
         >
-          {isLoading ? "Generating..." : "Generate"}
+          {loading ? "Generating..." : "Generate"}
         </button>
       </form>
     </aside>
