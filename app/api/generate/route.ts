@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     const text = await generateWithOpenRouter(prompt);
     return NextResponse.json({ text });
   } catch (err: any) {
-    // full debug log
+   
     console.error("OpenRouter Error (server):", err?.message ?? err);
     console.error("Error stack:", err?.stack);
     console.error("Error body/details:", err?.body ?? null);

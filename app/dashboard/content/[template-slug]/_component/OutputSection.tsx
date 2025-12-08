@@ -15,8 +15,6 @@ const OutputSection: React.FC<Props> = ({ aiOutput = "" }) => {
     if (!editorRef.current) return;
     try {
       const inst = editorRef.current.getInstance();
-      // If editor is in wysiwyg mode, set HTML via setMarkdown still works for most inputs.
-      // Use setMarkdown so it works both when preview/edit modes change.
       inst.setMarkdown(aiOutput ?? "");
     } catch (err) {
       console.error("Failed to update editor content:", err);

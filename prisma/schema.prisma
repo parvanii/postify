@@ -1,8 +1,5 @@
-
-
 generator client {
   provider = "prisma-client-js"
-  
 }
 
 datasource db {
@@ -10,38 +7,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id              String    @id @default(uuid())
-  razorpayCustId  String?   @unique @map("razorpay_customer_id")
-  email           String    @unique
-  name            String?
-  points          Int       @default(50)
-  createdAt       DateTime  @default(now()) @map("created_at")
+model AIOutput {
+  id           Int     @id @default(autoincrement())
+  formData     String?   // varchar
+  aiResponse   String    @db.Text
+  templateSlug String?   // varchar
+  createdBy    String?   // varchar
+  createdAt    String?   // varchar 
 
-  subscriptions   Subscription[]
-  contents        GeneratedContent[]
+  @@map("aiOutput") 
 }
 
-model Subscription {
-  id                 String   @id @default(uuid())
-  userId             String   @map("user_id")
-  razorpaySubId      String   @map("razorpay_subscription_id")
-  plan               String   @db.VarChar(50)
-  status             String   @db.VarChar(50)
-  currentPeriodStart DateTime @map("current_period_start")
-  currentPeriodEnd   DateTime @map("current_period_end")
-  cancelAtPeriodEnd  Boolean  @default(false) @map("cancel_at_period_end")
+model UserSubscription {
+  id        Int      @id @default(autoincrement())
+  email     String?
+  userName  String?
+  active    Boolean?
+  paymentId String?
+  joinDate  String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model GeneratedContent {
-  id          String   @id @default(uuid())
-  userId      String   @map("user_id")
-  content     String
-  prompt      String
-  contentType String   @db.VarChar(50) @map("content_type")
-  createdAt   DateTime @default(now()) @map("created_at")
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@map("userSubscription")
 }

@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Inter } from "next/font/google";
+import UsageTrack from "./UsageTrack";
 
 const inter = Inter({ subsets: ["latin"], weight: ["400", "600", "700"] });
 
@@ -40,8 +41,8 @@ const SideBar = () => {
 
   return (
     <aside className="fixed top-0 left-0 h-full w-64 bg-[#5523E8] text-white z-50 hidden md:flex flex-col">
-      <div className="px-6 pt-6 pb-3 flex items-center gap-3">
 
+      <div className="px-6 pt-6 pb-3 flex items-center gap-3">
         <Image src="/logo.png" alt="logo" width={44} height={44} />
         <span className={`${inter.className} font-bold text-xl`}>Postify</span>
       </div>
@@ -65,6 +66,11 @@ const SideBar = () => {
           );
         })}
       </nav>
+
+      {/* ⭐ BOTTOM USAGE SECTION ADDED HERE */}
+      <div className="px-4 pb-6">
+        <UsageTrack />
+      </div>
     </aside>
   );
 };

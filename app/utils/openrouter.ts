@@ -17,17 +17,17 @@ export async function generateWithOpenRouter(prompt: string, model = "meta-llama
       }),
     });
   
-    const text = await res.text(); // read raw body for better diagnostics
+    const text = await res.text(); 
   
     if (!res.ok) {
-      // include status and body for server logs / client
+   
       const err = new Error(`OpenRouter ${res.status}: ${text}`);
       (err as any).status = res.status;
       (err as any).body = text;
       throw err;
     }
   
-    // parse JSON safely
+ 
     let data: any;
     try {
       data = JSON.parse(text);
@@ -35,7 +35,7 @@ export async function generateWithOpenRouter(prompt: string, model = "meta-llama
       throw new Error(`OpenRouter returned non-json: ${text}`);
     }
   
-    // canonical content location (adjust if model/provider differs)
+
     const content = data?.choices?.[0]?.message?.content ?? data?.choices?.[0]?.text ?? "";
     return String(content);
   }
