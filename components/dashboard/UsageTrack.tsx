@@ -2,17 +2,18 @@
 
 import React, { useContext, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useUser } from "@clerk/nextjs";
+import { useUser, useAuth } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 import { TotalUsageContext } from "@/app/(context)/TotalUsageContext";
-import { UserSubscriptionContext } from "@/app/(context)/UserSubscriptionContext";
 import { UpdateCreditUsageContext } from "@/app/(context)/UpdateCreditUsageContext";
 
 export default function UsageTrack() {
   const { user, isLoaded } = useUser();
+  const { has } = useAuth();
+  const router = useRouter();
 
   const totalUsageCtx = useContext(TotalUsageContext);
-  const userSubscriptionCtx = useContext(UserSubscriptionContext);
   const updateCreditUsageCtx = useContext(UpdateCreditUsageContext);
 
   const [maxWords, setMaxWords] = useState(10_000);
@@ -20,18 +21,34 @@ export default function UsageTrack() {
 
   const totalUsage = totalUsageCtx?.totalUsage ?? 0;
   const setTotalUsage = totalUsageCtx?.setTotalUsage;
-  const userSubscription = userSubscriptionCtx?.userSubscription ?? false;
-  const setUserSubscription = userSubscriptionCtx?.setUserSubscription;
   const updateCreditUsage = updateCreditUsageCtx?.updateCreditUsage ?? 0;
+
+  const hasPremiumAccess = has?.({ plan: "monthly" }) ?? false;
 
  
   useEffect(() => {
-    setMaxWords(userSubscription ? 1_000_000 : 10_000);
-  }, [userSubscription]);
+    setMaxWords(hasPremiumAccess ? 25_000 : 10_000);
+  }, [hasPremiumAccess]);
 
-
+  
   useEffect(() => {
     if (!isLoaded || !user) return;
+
+    
+    const now = new Date();
+    const currentMonth = now.getMonth(); 
+    const storedMonth = Number(localStorage.getItem("usageMonth") ?? currentMonth);
+
+    if (currentMonth !== storedMonth) {
+      setTotalUsage?.(0); 
+      localStorage.setItem("usageMonth", String(currentMonth));
+      localStorage.setItem("totalUsage", "0");
+    } else {
+   
+      const storedUsage = Number(localStorage.getItem("totalUsage") ?? 0);
+      setTotalUsage?.(storedUsage);
+    }
+
     fetchUsage();
   }, [isLoaded, user, updateCreditUsage]);
 
@@ -40,9 +57,9 @@ export default function UsageTrack() {
     try {
       const res = await fetch("/api/usage");
       const data = await res.json();
-
-      setTotalUsage?.(Number(data.totalUsage ?? 0));
-      setUserSubscription?.(Boolean(data.isSubscribed));
+      const usage = Number(data.totalUsage ?? 0);
+      setTotalUsage?.(usage);
+      localStorage.setItem("totalUsage", String(usage));
     } catch (err) {
       console.error("Failed to fetch usage:", err);
     } finally {
@@ -50,7 +67,10 @@ export default function UsageTrack() {
     }
   }
 
-  
+  const handleButtonClick = () => {
+    router.push("/dashboard/billing");
+  };
+
   if (!isLoaded) {
     return <div className="m-5 text-white">Loading…</div>;
   }
@@ -70,13 +90,16 @@ export default function UsageTrack() {
         </div>
 
         <h2 className="text-sm my-2">
-          {loading
-            ? "Loading…"
-            : `${totalUsage}/${maxWords} credits used`}
+          {loading ? "Loading…" : `${totalUsage}/${maxWords} credits used`}
         </h2>
       </div>
 
-      <Button className="w-full my-3 bg-[#E823B6]">Upgrade</Button>
+      <Button
+        className="w-full my-3 bg-[#E823B6]"
+        onClick={handleButtonClick}
+      >
+        {hasPremiumAccess ? "Manage Plan" : "Upgrade"}
+      </Button>
     </div>
   );
 }
