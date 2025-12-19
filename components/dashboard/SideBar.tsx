@@ -11,7 +11,6 @@ const inter = Inter({ subsets: ["latin"], weight: ["400", "600", "700"] });
 
 const SideBar = () => {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
 
   const links = [
     { label: "Home", href: "/", icon: "home" },

@@ -62,8 +62,9 @@ export default function PricingPage(): JSX.Element {
               Pricing
             </h1>
             <p className={`${manrope.className} mt-3 text-lg text-white/90`}>
-              Simple plans for creators — start free and upgrade when you're ready.
-            </p>
+  Simple plans for creators — start free and upgrade when you&apos;re ready.
+</p>
+
           </motion.div>
 
           {/* CARDS */}

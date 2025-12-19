@@ -5,24 +5,25 @@ import React, { useState, useRef, useEffect } from "react";
 const faqs = [
   {
     q: "What is Postify?",
-    a: "Postify helps you generate content, captions, ideas, and more — quickly and effortlessly.",
+    a: "Postify is your AI-powered content assistant, helping you generate captions, posts, ideas, and more — quickly and effortlessly.",
   },
   {
-    q: "Who is Postify for?",
-    a: "Postify is built for creators, agencies, freelancers, marketing teams, students, and more.",
+    q: "Who can use Postify?",
+    a: "Postify is designed for creators, freelancers, agencies, marketing teams, students, and anyone who wants to create content faster.",
   },
   {
-    q: "Do I need design skills?",
-    a: "No! Postify handles the content generation so you can focus on publishing.",
+    q: "Do I need design or writing skills?",
+    a: "Not at all! Postify takes care of the content creation, so you can focus on sharing and publishing.",
   },
   {
-    q: "Is Postify free?",
-    a: "We offer a free tier with essential features, plus affordable upgrades.",
+    q: "Is there a free version of Postify?",
+    a: "Yes! Postify offers a free plan with essential features, along with premium options for more credits and advanced tools.",
   },
   {
-    q: "Is Postify free?",
-    a: "We offer a free tier with essential features, plus affordable upgrades.",
+    q: "Can I upgrade my plan later?",
+    a: "Absolutely! You can easily upgrade from the free plan to premium at any time for additional credits and features.",
   },
+  
 ];
 
 const Faq = () => {
