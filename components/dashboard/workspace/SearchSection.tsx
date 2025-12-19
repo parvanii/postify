@@ -1,4 +1,5 @@
 "use client";
+
 import { Search } from "lucide-react";
 import React from "react";
 import { Inter } from "next/font/google";
@@ -8,15 +9,17 @@ const inter = Inter({
   weight: ["500", "600"],
 });
 
-function SearchSection({ onSearchInput }: any) {
+interface SearchSectionProps {
+  onSearchInput: (value: string) => void;
+}
+
+function SearchSection({ onSearchInput }: SearchSectionProps) {
   return (
     <div
       className="p-10 flex flex-col justify-center items-center text-white rounded-xl"
       style={{ backgroundColor: "#5523E8" }}
     >
-      <h2
-        className={`${inter.className} text-3xl font-semibold mb-1`}
-      >
+      <h2 className={`${inter.className} text-3xl font-semibold mb-1`}>
         What would you like to create today?
       </h2>
 
