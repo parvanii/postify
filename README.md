@@ -5,7 +5,7 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
 ![Clerk](https://img.shields.io/badge/Clerk-5A67D8?style=for-the-badge&logo=clerk&logoColor=white)
 ![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
-![Neon](https://img.shields.io/badge/Neon)
+![Neon](https://img.shields.io/badge/Neon-00E599?style=for-the-badge&logo=postgresql&logoColor=white)
 
 **Postify** is your ultimate **social media content generator** – designed to help creators, marketers, and enthusiasts generate content people **can't ignore**. Whether you need Instagram captions, blog ideas, YouTube descriptions, or Reddit posts, Postify turns your ideas into ready-to-publish content **instantly**. 💡  
 
