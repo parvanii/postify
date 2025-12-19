@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import FormSection from "./_component/FormSection";
 import OutputSection from "./_component/OutputSection";
 import Templates from "@/app/(data)/Templates";
@@ -10,27 +10,32 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import moment from "moment";
 import { useUser } from "@clerk/nextjs";
+import { TotalUsageContext } from "@/app/(context)/TotalUsageContext";
+import { useRouter } from "next/navigation";
 
 interface PROPS {
-  params: any;
+  params: Promise<{
+    "template-slug": string;
+  }>;
 }
 
-export default function CreateNewContent(props: PROPS) {
-  const unwrappedParams =
-    typeof (React as any).use === "function"
-      ? (React as any).use(props.params)
-      : props.params;
+export default function CreateNewContent({ params }: PROPS) {
+  
+  const { "template-slug": slug } = React.use(params);
 
-  const slug: string | undefined = unwrappedParams?.["template-slug"];
-
-  const selectedTemplate: TEMPLATE | undefined = Templates?.find(
+  const selectedTemplate: TEMPLATE | undefined = Templates.find(
     (item) => item.slug === slug
   );
 
   const [loading, setLoading] = useState(false);
   const [aiOutput, setAiOutput] = useState("");
 
+  const router = useRouter();
   const { user } = useUser();
+
+  const totalUsageCtx = useContext(TotalUsageContext);
+  const totalUsage = totalUsageCtx?.totalUsage ?? 0;
+  const setTotalUsage = totalUsageCtx?.setTotalUsage;
 
   const userEmail =
     (user as any)?.primaryEmailAddress?.emailAddress ||
@@ -57,14 +62,11 @@ export default function CreateNewContent(props: PROPS) {
         }),
       });
 
-      const data = await res.json().catch(() => ({ error: "invalid-json" }));
-
+      const data = await res.json();
       if (!res.ok) {
         console.error("Save API error:", data);
         return null;
       }
-
-      console.log("DB Save Result →", data.created);
       return data.created;
     } catch (e) {
       console.error("Save failed:", e);
@@ -74,10 +76,15 @@ export default function CreateNewContent(props: PROPS) {
 
   const GenerateAIContent = async (formValues: any) => {
     try {
+      if (totalUsage >= 10_000) {
+        router.push("/dashboard/billing");
+        return;
+      }
+
       setLoading(true);
 
-      const SelectedPrompt = selectedTemplate?.aiPrompt ?? "";
-      const finalPrompt = JSON.stringify(formValues) + ", " + SelectedPrompt;
+      const finalPrompt =
+        JSON.stringify(formValues) + ", " + (selectedTemplate?.aiPrompt ?? "");
 
       const res = await fetch("/api/generate", {
         method: "POST",
@@ -85,30 +92,25 @@ export default function CreateNewContent(props: PROPS) {
         body: JSON.stringify({ prompt: finalPrompt }),
       });
 
-      const data = await res.json().catch(() => ({ error: "invalid json" }));
-
+      const data = await res.json();
       if (!res.ok) {
         console.error("Generate API error:", data);
-        setAiOutput("");
         return;
       }
 
       const outputText = data.text ?? "";
       setAiOutput(outputText);
 
-      console.log("Saving for user:", userEmail);
+      setTotalUsage?.((prev: number) => prev + outputText.length);
 
-      const dbResult = await SaveInDb(
+      await SaveInDb(
         formValues,
         selectedTemplate?.slug ?? "",
         outputText,
         userEmail
       );
-
-      console.log("Saved in DB:", dbResult);
     } catch (err) {
       console.error("Generate failed:", err);
-      setAiOutput("");
     } finally {
       setLoading(false);
     }
@@ -116,7 +118,7 @@ export default function CreateNewContent(props: PROPS) {
 
   return (
     <div className="p-5">
-      <Link href={"/dashboard"}>
+      <Link href="/dashboard">
         <Button>
           <ArrowLeft /> Back
         </Button>

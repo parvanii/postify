@@ -1,15 +1,19 @@
-"use client"
-import { Button } from '@/components/ui/button'
-import React from 'react'
+"use client";
 
-function CopyButton({aiResponse}:any) {
+import { Button } from "@/components/ui/button";
+
+export default function CopyButton({
+  text,
+}: {
+  text: string;
+}) {
   return (
-    <div>
-          <Button variant='ghost' className='text-primary'
-          onClick={()=>navigator.clipboard.writeText(aiResponse)}
-                >Copy</Button>
-    </div>
-  )
+    <Button
+      size="sm"
+      className="bg-white text-black hover:bg-gray-200"
+      onClick={() => navigator.clipboard.writeText(text)}
+    >
+      Copy
+    </Button>
+  );
 }
-
-export default CopyButton
