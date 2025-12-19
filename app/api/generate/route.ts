@@ -1,4 +1,3 @@
-// app/api/generate/route.ts
 import { NextResponse } from "next/server";
 import { generateWithOpenRouter } from "@/app/utils/openrouter";
 
@@ -11,12 +10,23 @@ export async function POST(req: Request) {
 
     const text = await generateWithOpenRouter(prompt);
     return NextResponse.json({ text });
-  } catch (err: any) {
+  } catch (err: unknown) {
    
-    console.error("OpenRouter Error (server):", err?.message ?? err);
-    console.error("Error stack:", err?.stack);
-    console.error("Error body/details:", err?.body ?? null);
-    const status = err?.status || 500;
-    return NextResponse.json({ error: "fetch failed", details: err?.body ?? null }, { status });
+    let message = "Unknown error";
+    let body = null;
+    let status = 500;
+
+    if (err instanceof Error) {
+      message = err.message;
+      body = (err as any).body ?? null; 
+      status = (err as any).status ?? 500;
+    }
+
+    console.error("OpenRouter Error (server):", message);
+    console.error("Error stack:", err instanceof Error ? err.stack : null);
+    console.error("Error body/details:", body);
+
+    return NextResponse.json({ error: "fetch failed", details: body }, { status });
   }
 }
+

@@ -3,19 +3,21 @@
 import React, { useEffect, useRef } from "react";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
+import type { Editor as ToastEditor } from "@toast-ui/editor";
 
 interface Props {
   aiOutput?: string;
 }
 
 const OutputSection: React.FC<Props> = ({ aiOutput = "" }) => {
-  const editorRef: any = useRef();
+  const editorRef = useRef<Editor | null>(null);
 
   useEffect(() => {
     if (!editorRef.current) return;
+
     try {
-      const inst = editorRef.current.getInstance();
-      inst.setMarkdown(aiOutput ?? "");
+      const instance: ToastEditor = editorRef.current.getInstance();
+      instance.setMarkdown(aiOutput);
     } catch (err) {
       console.error("Failed to update editor content:", err);
     }
@@ -52,9 +54,11 @@ const OutputSection: React.FC<Props> = ({ aiOutput = "" }) => {
         height="97vh"
         initialEditType="wysiwyg"
         useCommandShortcut={true}
-        onChange={() =>
-          console.log(editorRef.current?.getInstance?.().getMarkdown?.() ?? "")
-        }
+        onChange={() => {
+          const markdown =
+            editorRef.current?.getInstance().getMarkdown() ?? "";
+          console.log(markdown);
+        }}
       />
     </div>
   );

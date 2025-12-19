@@ -13,22 +13,35 @@ import { useUser } from "@clerk/nextjs";
 import { TotalUsageContext } from "@/app/(context)/TotalUsageContext";
 import { useRouter } from "next/navigation";
 
-interface PROPS {
-  params: Promise<{
+
+
+interface PageProps {
+  params: {
     "template-slug": string;
-  }>;
+  };
 }
 
-export default function CreateNewContent({ params }: PROPS) {
-  
-  const { "template-slug": slug } = React.use(params);
+export interface FormValues {
+  prompt: string;
+  tone: string;
+  approxWords: number;
+  generateHashtags: boolean;
+  includeEmoji: boolean;
+  postsToGenerate: number;
+  templateSlug: string | null;
+}
+
+
+
+export default function CreateNewContent({ params }: PageProps) {
+  const slug = params["template-slug"];
 
   const selectedTemplate: TEMPLATE | undefined = Templates.find(
     (item) => item.slug === slug
   );
 
-  const [loading, setLoading] = useState(false);
-  const [aiOutput, setAiOutput] = useState("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [aiOutput, setAiOutput] = useState<string>("");
 
   const router = useRouter();
   const { user } = useUser();
@@ -37,18 +50,19 @@ export default function CreateNewContent({ params }: PROPS) {
   const totalUsage = totalUsageCtx?.totalUsage ?? 0;
   const setTotalUsage = totalUsageCtx?.setTotalUsage;
 
-  const userEmail =
-    (user as any)?.primaryEmailAddress?.emailAddress ||
-    (user as any)?.email ||
-    (user as any)?.emailAddresses?.[0]?.emailAddress ||
+  const userEmail: string | null =
+    user?.primaryEmailAddress?.emailAddress ??
+    user?.emailAddresses?.[0]?.emailAddress ??
     null;
 
-  const SaveInDb = async (
-    formData: any,
+ 
+
+  const saveInDb = async (
+    formData: FormValues,
     slug: string,
     aiResp: string,
     userEmail: string | null
-  ) => {
+  ): Promise<boolean> => {
     try {
       const res = await fetch("/api/save", {
         method: "POST",
@@ -62,19 +76,20 @@ export default function CreateNewContent({ params }: PROPS) {
         }),
       });
 
-      const data = await res.json();
       if (!res.ok) {
-        console.error("Save API error:", data);
-        return null;
+        const error = await res.json();
+        console.error("Save API error:", error);
+        return false;
       }
-      return data.created;
-    } catch (e) {
-      console.error("Save failed:", e);
-      return null;
+
+      return true;
+    } catch (err) {
+      console.error("Save failed:", err);
+      return false;
     }
   };
 
-  const GenerateAIContent = async (formValues: any) => {
+  const generateAIContent = async (formValues: FormValues): Promise<void> => {
     try {
       if (totalUsage >= 10_000) {
         router.push("/dashboard/billing");
@@ -84,7 +99,9 @@ export default function CreateNewContent({ params }: PROPS) {
       setLoading(true);
 
       const finalPrompt =
-        JSON.stringify(formValues) + ", " + (selectedTemplate?.aiPrompt ?? "");
+        JSON.stringify(formValues) +
+        ", " +
+        (selectedTemplate?.aiPrompt ?? "");
 
       const res = await fetch("/api/generate", {
         method: "POST",
@@ -92,7 +109,8 @@ export default function CreateNewContent({ params }: PROPS) {
         body: JSON.stringify({ prompt: finalPrompt }),
       });
 
-      const data = await res.json();
+      const data: { text?: string } = await res.json();
+
       if (!res.ok) {
         console.error("Generate API error:", data);
         return;
@@ -101,9 +119,9 @@ export default function CreateNewContent({ params }: PROPS) {
       const outputText = data.text ?? "";
       setAiOutput(outputText);
 
-      setTotalUsage?.((prev: number) => prev + outputText.length);
+      setTotalUsage?.((prev) => prev + outputText.length);
 
-      await SaveInDb(
+      await saveInDb(
         formValues,
         selectedTemplate?.slug ?? "",
         outputText,
@@ -115,6 +133,8 @@ export default function CreateNewContent({ params }: PROPS) {
       setLoading(false);
     }
   };
+
+
 
   return (
     <div className="p-5">
@@ -128,7 +148,7 @@ export default function CreateNewContent({ params }: PROPS) {
         <div className="md:col-span-1">
           <FormSection
             selectedTemplate={selectedTemplate}
-            userFormInput={GenerateAIContent}
+            userFormInput={generateAIContent}
             loading={loading}
           />
         </div>

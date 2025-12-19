@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    console.log("API /api/save incoming body:", JSON.stringify(body)); // <-- add this line
+    console.log("API /api/save incoming body:", JSON.stringify(body));
     const { formData, slug, aiResp, userEmail, createdAt } = body ?? {};
 
     if (!aiResp) {
@@ -22,8 +22,14 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ success: true, created });
-  } catch (err: any) {
-    console.error("API /api/save error:", err?.message ?? err);
-    return NextResponse.json({ error: err?.message ?? "unknown" }, { status: 500 });
+  } catch (err: unknown) {
+    let message = "Unknown error";
+
+    if (err instanceof Error) {
+      message = err.message;
+    }
+
+    console.error("API /api/save error:", message);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

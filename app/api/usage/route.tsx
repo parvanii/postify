@@ -10,7 +10,6 @@ export async function GET() {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-
     const userEmail =
       user.primaryEmailAddress?.emailAddress ??
       user.emailAddresses?.[0]?.emailAddress ??
@@ -23,7 +22,6 @@ export async function GET() {
       );
     }
 
- 
     const rows = await prisma.aIOutput.findMany({
       where: { createdBy: userEmail },
       select: { aiResponse: true },
@@ -34,7 +32,6 @@ export async function GET() {
       0
     );
 
-    
     const subscription = await prisma.userSubscription.findFirst({
       where: { email: userEmail },
     });
@@ -44,11 +41,14 @@ export async function GET() {
       isSubscribed: Boolean(subscription),
       maxWords: subscription ? 1_000_000 : 10_000,
     });
-  } catch (err: any) {
-    console.error("API /api/usage error:", err);
-    return NextResponse.json(
-      { error: err?.message ?? "Unknown error" },
-      { status: 500 }
-    );
+  } catch (err: unknown) {
+    let message = "Unknown error";
+
+    if (err instanceof Error) {
+      message = err.message;
+    }
+
+    console.error("API /api/usage error:", message);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

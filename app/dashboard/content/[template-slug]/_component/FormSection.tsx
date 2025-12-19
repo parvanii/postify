@@ -4,23 +4,46 @@ import React, { useMemo, useState } from "react";
 import { TEMPLATE } from "@/components/dashboard/workspace/TemplateListSection";
 import Image from "next/image";
 
+/* ✅ Type for the form payload */
+interface GenerateFormValues {
+  prompt: string;
+  tone: string;
+  approxWords: number;
+  generateHashtags: boolean;
+  includeEmoji: boolean;
+  postsToGenerate: number;
+  templateSlug: string | null;
+}
+
 interface Props {
   selectedTemplate?: TEMPLATE;
-  userFormInput: any;
+  userFormInput: (values: GenerateFormValues) => Promise<void>;
   loading: boolean;
 }
 
-const tones = ["Polite", "Witty", "Enthusiastic", "Friendly", "Informational", "Funny", "Formal"];
+const tones = [
+  "Polite",
+  "Witty",
+  "Enthusiastic",
+  "Friendly",
+  "Informational",
+  "Funny",
+  "Formal",
+];
 
-export default function FormSection({ selectedTemplate, userFormInput, loading }: Props) {
+export default function FormSection({
+  selectedTemplate,
+  userFormInput,
+  loading,
+}: Props) {
   const [prompt, setPrompt] = useState("");
   const [selectedTone, setSelectedTone] = useState<string>("Polite");
   const [approxWords, setApproxWords] = useState<number>(35);
-  const [generateHashtags, setGenerateHashtags] = useState(false);
-  const [includeEmoji, setIncludeEmoji] = useState(false);
+  const [generateHashtags, setGenerateHashtags] = useState<boolean>(false);
+  const [includeEmoji, setIncludeEmoji] = useState<boolean>(false);
   const [postsToGenerate, setPostsToGenerate] = useState<number>(3);
 
-  const formValues = useMemo(
+  const formValues = useMemo<GenerateFormValues>(
     () => ({
       prompt,
       tone: selectedTone,
@@ -30,11 +53,20 @@ export default function FormSection({ selectedTemplate, userFormInput, loading }
       postsToGenerate,
       templateSlug: selectedTemplate?.slug ?? null,
     }),
-    [prompt, selectedTone, approxWords, generateHashtags, includeEmoji, postsToGenerate, selectedTemplate]
+    [
+      prompt,
+      selectedTone,
+      approxWords,
+      generateHashtags,
+      includeEmoji,
+      postsToGenerate,
+      selectedTemplate,
+    ]
   );
 
-  // 🔥 FIXED — use userFormInput instead of onGenerate
-  const handleGenerate = async (e?: React.FormEvent) => {
+  const handleGenerate = async (
+    e?: React.FormEvent<HTMLFormElement>
+  ) => {
     e?.preventDefault();
     await userFormInput(formValues);
   };
@@ -51,7 +83,13 @@ export default function FormSection({ selectedTemplate, userFormInput, loading }
       <div className="flex items-start gap-4 mb-4">
         <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-white">
           {selectedTemplate?.icon ? (
-            <Image src={selectedTemplate.icon} alt="icon" width={40} height={40} className="object-contain" />
+            <Image
+              src={selectedTemplate.icon}
+              alt="icon"
+              width={40}
+              height={40}
+              className="object-contain"
+            />
           ) : (
             <div className="w-8 h-8" />
           )}
@@ -66,7 +104,9 @@ export default function FormSection({ selectedTemplate, userFormInput, loading }
 
       <form onSubmit={handleGenerate}>
         <div className="mb-4">
-          <label className="font-medium mb-2 block text-white">Your prompt</label>
+          <label className="font-medium mb-2 block text-white">
+            Your prompt
+          </label>
           <textarea
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
@@ -76,15 +116,17 @@ export default function FormSection({ selectedTemplate, userFormInput, loading }
         </div>
 
         <div className="mb-4">
-          <label className="font-medium mb-2 block text-white">Tone of voice</label>
+          <label className="font-medium mb-2 block text-white">
+            Tone of voice
+          </label>
           <div className="flex flex-wrap gap-3">
             {tones.map((tone) => {
               const active = tone === selectedTone;
               return (
                 <button
                   key={tone}
-                  onClick={() => setSelectedTone(tone)}
                   type="button"
+                  onClick={() => setSelectedTone(tone)}
                   className={`px-4 py-2 rounded-md border text-sm transition ${
                     active ? "text-white" : "text-white/70"
                   }`}
@@ -102,7 +144,9 @@ export default function FormSection({ selectedTemplate, userFormInput, loading }
 
         <div className="mb-4">
           <div className="flex items-center justify-between mb-2">
-            <label className="font-medium text-white">Approximate words</label>
+            <label className="font-medium text-white">
+              Approximate words
+            </label>
             <input
               type="number"
               min={5}
@@ -120,9 +164,7 @@ export default function FormSection({ selectedTemplate, userFormInput, loading }
             value={approxWords}
             onChange={(e) => setApproxWords(Number(e.target.value))}
             className="w-full h-2 rounded-lg"
-            style={{
-              accentColor: "#B6E723",
-            }}
+            style={{ accentColor: "#B6E723" }}
           />
         </div>
 
@@ -132,7 +174,9 @@ export default function FormSection({ selectedTemplate, userFormInput, loading }
             <input
               type="checkbox"
               checked={generateHashtags}
-              onChange={(e) => setGenerateHashtags(e.currentTarget.checked)}
+              onChange={(e) =>
+                setGenerateHashtags(e.currentTarget.checked)
+              }
               className="h-4 w-4 accent-[#B6E723]"
             />
           </div>
@@ -142,20 +186,26 @@ export default function FormSection({ selectedTemplate, userFormInput, loading }
             <input
               type="checkbox"
               checked={includeEmoji}
-              onChange={(e) => setIncludeEmoji(e.currentTarget.checked)}
+              onChange={(e) =>
+                setIncludeEmoji(e.currentTarget.checked)
+              }
               className="h-4 w-4 accent-[#B6E723]"
             />
           </div>
         </div>
 
         <div className="mb-6 flex items-center gap-4">
-          <label className="font-medium text-white">Posts to generate</label>
+          <label className="font-medium text-white">
+            Posts to generate
+          </label>
           <input
             type="number"
             min={1}
             max={10}
             value={postsToGenerate}
-            onChange={(e) => setPostsToGenerate(Number(e.target.value))}
+            onChange={(e) =>
+              setPostsToGenerate(Number(e.target.value))
+            }
             className="w-20 rounded-md bg-white/20 border border-white/30 px-2 py-1 text-white"
           />
         </div>

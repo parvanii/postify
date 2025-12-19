@@ -40,7 +40,7 @@ export default function ContactPage(): JSX.Element {
         <div className="max-w-4xl mx-auto px-6 py-20">
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="mb-8">
             <h1 className={`${poppins.className} text-4xl font-bold text-white`}>Contact Us</h1>
-            <p className={`${manrope.className} mt-2 text-white/90 text-lg`}>Need help or have questions? We're here for you.</p>
+            <p className={`${manrope.className} mt-2 text-white/90 text-lg`}>Need help or have questions? We&apos;re here for you.</p>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
