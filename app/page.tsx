@@ -1,5 +1,4 @@
 
-import {SignUpButton,SignedOut,SignedIn,SignOutButton} from '@clerk/nextjs'
 import Header from '@/components/landing/Header'
 import Hero from '@/components/landing/Hero';
 import Howdoesitwork from '@/components/landing/Howdoesitwork';

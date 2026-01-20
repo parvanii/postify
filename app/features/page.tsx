@@ -3,7 +3,6 @@
 import React, { KeyboardEvent, useState } from "react";
 import Header from "@/components/landing/Header";
 import Footer from "@/components/landing/Footer";
-import Image from "next/image";
 import { Poppins, Manrope } from "next/font/google";
 import { motion } from "framer-motion";
 

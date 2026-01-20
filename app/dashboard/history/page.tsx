@@ -1,6 +1,5 @@
 
 import Templates from "@/app/(data)/Templates";
-import { Button } from "@/components/ui/button";
 import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";

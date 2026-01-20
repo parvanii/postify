@@ -12,6 +12,7 @@ import moment from "moment";
 import { useUser } from "@clerk/nextjs";
 import { TotalUsageContext } from "@/app/(context)/TotalUsageContext";
 import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
 export interface FormValues {
   prompt: string;
@@ -23,12 +24,10 @@ export interface FormValues {
   templateSlug: string | null;
 }
 
-export default function CreateNewContent({
-  params,
-}: {
-  params: { "template-slug": string };
-}) {
-  const slug = params["template-slug"];
+export default function CreateNewContent() {
+  const params = useParams();
+  const slug = params["template-slug"] as string;
+
 
   const selectedTemplate: TEMPLATE | undefined = Templates.find(
     (item) => item.slug === slug
