@@ -75,7 +75,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* ---- BOTTOM ---- */}
+   
       <div className="mt-8 text-center text-white/70 text-sm">
         © {new Date().getFullYear()} Postify — All rights reserved.
       </div>

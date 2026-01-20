@@ -23,7 +23,6 @@ const faqs = [
     q: "Can I upgrade my plan later?",
     a: "Absolutely! You can easily upgrade from the free plan to premium at any time for additional credits and features.",
   },
-  
 ];
 
 const Faq = () => {
@@ -41,7 +40,6 @@ const Faq = () => {
   return (
     <section className="w-full py-24" style={{ backgroundColor: "#E823B6" }}>
       <div className="max-w-5xl mx-auto px-8">
-
         <h2 className="text-white text-center text-4xl md:text-5xl font-semibold mb-14">
           Frequently Asked Questions
         </h2>
@@ -59,10 +57,9 @@ const Faq = () => {
                   overflow-hidden 
                   transition-all 
                   duration-300 
-                  shadow-[0px_8px_0px_#000]   /* <<< ADDED BLACK SHADOW */
+                  shadow-[0px_8px_0px_#000]
                 "
               >
-                
                 <button
                   onClick={() => toggleFaq(i)}
                   className="w-full text-left px-6 py-4 flex items-center justify-between focus:outline-none"
@@ -82,7 +79,9 @@ const Faq = () => {
                 </button>
 
                 <div
-                  ref={(el) => (contentRefs.current[i] = el)}
+                  ref={(el) => {
+                    contentRefs.current[i] = el;
+                  }}
                   style={{
                     maxHeight: isOpen
                       ? contentRefs.current[i]?.scrollHeight
@@ -95,7 +94,9 @@ const Faq = () => {
                 >
                   <div
                     className={`px-6 pb-6 pt-0 text-black/85 leading-relaxed transform transition-all duration-300 ${
-                      isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+                      isOpen
+                        ? "opacity-100 translate-y-0"
+                        : "opacity-0 -translate-y-2"
                     }`}
                   >
                     {item.a}
@@ -105,7 +106,6 @@ const Faq = () => {
             );
           })}
         </div>
-
       </div>
     </section>
   );

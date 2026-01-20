@@ -59,7 +59,7 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Cards */}
+       
         <div className="absolute top-32 left-0 transform -translate-x-1/4">
           <Image src="/facebook.png" alt="facebook card" width={280} height={280} className="drop-shadow-lg rounded-xl" />
         </div>
@@ -76,7 +76,7 @@ export default function Hero() {
           <Image src="/instagram.png" alt="instagram card" width={280} height={280} className="drop-shadow-lg rounded-xl" />
         </div>
 
-        {/* Background gradients */}
+   
         <div
           className="absolute -left-40 -top-32 w-[520px] h-[520px] rounded-full blur-3xl opacity-20"
           style={{ background: "radial-gradient(circle, rgba(232,35,182,0.32), rgba(173,212,2,0.12))" }}
