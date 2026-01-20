@@ -2,13 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import templates from "@/app/(data)/Templates";
-type TEMPLATE = (typeof templates)[number];
-
-
-interface Props {
-  item: TEMPLATE;
-}
+import type { TEMPLATE } from "./TemplateListSection";
 
 const TemplateCard = (item: TEMPLATE) => {
   return (
