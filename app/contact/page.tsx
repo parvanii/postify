@@ -11,7 +11,7 @@ import { motion } from "framer-motion";
 const poppins = Poppins({ subsets: ["latin"], weight: ["600", "700"] });
 const manrope = Manrope({ subsets: ["latin"], weight: ["300", "400", "600"] });
 
-export default function ContactPage(): JSX.Element {
+export default function ContactPage(){
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
