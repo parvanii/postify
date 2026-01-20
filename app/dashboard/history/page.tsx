@@ -119,7 +119,7 @@ async function History() {
                     {item.aiResponse.length}
                   </div>
 
-                  <CopyButton aiResponse={item.aiResponse} />
+                  <CopyButton text={item.aiResponse} />
                 </div>
 
                 <hr className="border-white/10" />
