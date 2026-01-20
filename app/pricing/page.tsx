@@ -4,14 +4,16 @@ import React from "react";
 import Header from "@/components/landing/Header";
 import Footer from "@/components/landing/Footer";
 import { Poppins, Manrope } from "next/font/google";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["600", "700"] });
 const manrope = Manrope({ subsets: ["latin"], weight: ["300", "400", "600"] });
 
-const container = {
+/* ------------------ ANIMATION VARIANTS ------------------ */
+
+const container: Variants = {
   hidden: { opacity: 0, y: 10 },
   show: {
     opacity: 1,
@@ -23,17 +25,23 @@ const container = {
   },
 };
 
-const cardVariant = {
+const cardVariant: Variants = {
   hidden: { opacity: 0, y: 18, scale: 0.98 },
   show: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { type: "spring", stiffness: 160, damping: 18 },
+    transition: {
+      type: "spring",
+      stiffness: 160,
+      damping: 18,
+    },
   },
 };
 
-export default function PricingPage(){
+/* ------------------ PAGE ------------------ */
+
+export default function PricingPage() {
   const { isSignedIn } = useUser();
   const router = useRouter();
 
@@ -58,13 +66,17 @@ export default function PricingPage(){
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="mb-12"
           >
-            <h1 className={`${poppins.className} text-4xl md:text-5xl font-bold`}>
+            <h1
+              className={`${poppins.className} text-4xl md:text-5xl font-bold`}
+            >
               Pricing
             </h1>
-            <p className={`${manrope.className} mt-3 text-lg text-white/90`}>
-  Simple plans for creators — start free and upgrade when you&apos;re ready.
-</p>
-
+            <p
+              className={`${manrope.className} mt-3 text-lg text-white/90`}
+            >
+              Simple plans for creators — start free and upgrade when you&apos;re
+              ready.
+            </p>
           </motion.div>
 
           {/* CARDS */}
@@ -76,11 +88,16 @@ export default function PricingPage(){
             className="grid grid-cols-1 md:grid-cols-2 gap-8"
           >
             {/* BASIC */}
-            <motion.div variants={cardVariant} whileHover={{ y: -6, scale: 1.02 }}>
+            <motion.div
+              variants={cardVariant}
+              whileHover={{ y: -6, scale: 1.02 }}
+            >
               <div className="rounded-2xl p-8 shadow-xl bg-white min-h-[320px]">
                 <div className="h-3 rounded-t-2xl -mt-6 mb-6 bg-[#E823B6]" />
 
-                <h3 className={`${poppins.className} text-2xl font-bold text-gray-900`}>
+                <h3
+                  className={`${poppins.className} text-2xl font-bold text-gray-900`}
+                >
                   Basic
                 </h3>
 
@@ -89,9 +106,15 @@ export default function PricingPage(){
                 </p>
 
                 <ul className="mt-6 ml-4 list-disc text-sm text-gray-700 space-y-2">
-                  <li><strong>10,000 credits</strong> per month</li>
-                  <li><strong>Unlimited</strong> copy & download</li>
-                  <li><strong>1 month</strong> history</li>
+                  <li>
+                    <strong>10,000 credits</strong> per month
+                  </li>
+                  <li>
+                    <strong>Unlimited</strong> copy & download
+                  </li>
+                  <li>
+                    <strong>1 month</strong> history
+                  </li>
                   <li>Hashtag & tone suggestions</li>
                 </ul>
 
@@ -105,18 +128,27 @@ export default function PricingPage(){
               </div>
             </motion.div>
 
-           
-            <motion.div variants={cardVariant} whileHover={{ y: -6, scale: 1.02 }}>
+            {/* PRO */}
+            <motion.div
+              variants={cardVariant}
+              whileHover={{ y: -6, scale: 1.02 }}
+            >
               <div className="rounded-2xl p-8 shadow-xl bg-white min-h-[320px]">
                 <div className="h-3 rounded-t-2xl -mt-6 mb-6 bg-[#B6E723]" />
 
                 <div className="flex items-center justify-between">
-                  <h3 className={`${poppins.className} text-2xl font-bold text-gray-900`}>
+                  <h3
+                    className={`${poppins.className} text-2xl font-bold text-gray-900`}
+                  >
                     Pro
                   </h3>
-                  <div className={`${poppins.className} text-lg font-bold text-gray-900`}>
+                  <div
+                    className={`${poppins.className} text-lg font-bold text-gray-900`}
+                  >
                     $12
-                    <span className={`${manrope.className} text-sm font-medium`}>
+                    <span
+                      className={`${manrope.className} text-sm font-medium`}
+                    >
                       {" "}
                       / month
                     </span>
@@ -128,9 +160,15 @@ export default function PricingPage(){
                 </p>
 
                 <ul className="mt-6 ml-4 list-disc text-sm text-gray-700 space-y-2">
-                  <li><strong>25,000 credits</strong> per month</li>
-                  <li><strong>Unlimited</strong> copy & download</li>
-                  <li><strong>1 year</strong> history</li>
+                  <li>
+                    <strong>25,000 credits</strong> per month
+                  </li>
+                  <li>
+                    <strong>Unlimited</strong> copy & download
+                  </li>
+                  <li>
+                    <strong>1 year</strong> history
+                  </li>
                   <li>Priority generation</li>
                 </ul>
 
