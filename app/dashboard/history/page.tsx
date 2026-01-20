@@ -35,8 +35,11 @@ async function History() {
       aiResponse: r.aiResponse ?? "",
       templateSlug: r.templateSlug ?? "",
       createdBy: r.createdBy ?? "",
-      createdAt: r.createdAt.toISOString(), 
+      createdAt: r.createdAt
+        ? r.createdAt.toISOString()
+        : "",
     }));
+    
   }
 
   const getTemplate = (slug: string) =>
