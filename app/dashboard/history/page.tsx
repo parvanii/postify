@@ -35,9 +35,12 @@ async function History() {
       aiResponse: r.aiResponse ?? "",
       templateSlug: r.templateSlug ?? "",
       createdBy: r.createdBy ?? "",
-      createdAt: r.createdAt
-        ? r.createdAt.toISOString()
-        : "",
+      createdAt:
+        r.createdAt instanceof Date
+          ? r.createdAt.toISOString()
+          : typeof r.createdAt === "string"
+          ? r.createdAt
+          : "",
     }));
     
   }
