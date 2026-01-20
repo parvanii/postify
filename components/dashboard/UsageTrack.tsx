@@ -46,7 +46,7 @@ export default function UsageTrack() {
     }
 
     fetchUsage();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [isLoaded, user, updateCreditUsage]);
 
   async function fetchUsage() {

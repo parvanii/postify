@@ -9,8 +9,6 @@ import UsageTrack from "./UsageTrack";
 
 const inter = Inter({ subsets: ["latin"], weight: ["400", "600", "700"] });
 
-
-
 type IconKey = "home" | "history" | "billing" | "settings";
 
 interface SidebarLink {
@@ -19,22 +17,18 @@ interface SidebarLink {
   icon: IconKey;
 }
 
-
-
-const icons: Record<IconKey, JSX.Element> = {
+const icons: Record<IconKey, React.ReactNode> = {
   home: (
     <svg width="20" height="20" viewBox="0 0 24 24" stroke="white" fill="none" strokeWidth="1.6">
       <path d="M3 11.5L12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V11.5z" />
     </svg>
   ),
-
   history: (
     <svg width="20" height="20" viewBox="0 0 24 24" stroke="white" fill="none" strokeWidth="1.6">
       <path d="M21 12a9 9 0 1 1-2.6-6.1L21 5" />
       <path d="M12 7v6l4 2" />
     </svg>
   ),
-
   billing: (
     <svg width="20" height="20" viewBox="0 0 24 24" stroke="white" fill="none" strokeWidth="1.6">
       <rect x="2" y="5" width="20" height="14" rx="2" />
@@ -42,7 +36,6 @@ const icons: Record<IconKey, JSX.Element> = {
       <path d="M6 15h4" />
     </svg>
   ),
-
   settings: (
     <svg width="20" height="20" viewBox="0 0 24 24" stroke="white" fill="none" strokeWidth="1.6">
       <circle cx="12" cy="12" r="3.5" />
@@ -50,8 +43,6 @@ const icons: Record<IconKey, JSX.Element> = {
     </svg>
   ),
 };
-
-
 
 const SideBar = () => {
   const pathname = usePathname();
@@ -67,9 +58,7 @@ const SideBar = () => {
     <aside className="fixed top-0 left-0 h-full w-64 bg-[#5523E8] text-white z-50 hidden md:flex flex-col">
       <div className="px-6 pt-6 pb-3 flex items-center gap-3">
         <Image src="/logo.png" alt="logo" width={44} height={44} />
-        <span className={`${inter.className} font-bold text-xl`}>
-          Postify
-        </span>
+        <span className={`${inter.className} font-bold text-xl`}>Postify</span>
       </div>
 
       <nav className="flex-1 px-4 py-6 space-y-3">
@@ -100,4 +89,4 @@ const SideBar = () => {
   );
 };
 
-export default SideBar;
+export default SideBar
