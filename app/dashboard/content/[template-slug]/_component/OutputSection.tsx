@@ -19,7 +19,8 @@ const OutputSection: React.FC<Props> = ({ aiOutput = "" }) => {
   }, [aiOutput]);
 
   return (
-    <div className="w-full p-2">
+    <div className="w-full max-w-[1200px] mx-auto p-2">
+
       <style>{`
 
         .toastui-editor-defaultUI,

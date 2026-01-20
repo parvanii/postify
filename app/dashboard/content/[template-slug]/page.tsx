@@ -11,8 +11,7 @@ import Link from "next/link";
 import moment from "moment";
 import { useUser } from "@clerk/nextjs";
 import { TotalUsageContext } from "@/app/(context)/TotalUsageContext";
-import { useRouter } from "next/navigation";
-import { useParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
 export interface FormValues {
   prompt: string;
@@ -25,9 +24,8 @@ export interface FormValues {
 }
 
 export default function CreateNewContent() {
-  const params = useParams();
-  const slug = params["template-slug"] as string;
-
+  const params = useParams<{ "template-slug": string }>();
+  const slug = params["template-slug"];
 
   const selectedTemplate: TEMPLATE | undefined = Templates.find(
     (item) => item.slug === slug
@@ -126,7 +124,10 @@ export default function CreateNewContent() {
           userFormInput={generateAIContent}
           loading={loading}
         />
-        <OutputSection aiOutput={aiOutput} />
+
+        <div className="md:col-span-2">
+          <OutputSection aiOutput={aiOutput} />
+        </div>
       </div>
     </div>
   );
