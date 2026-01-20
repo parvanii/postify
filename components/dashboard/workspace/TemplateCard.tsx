@@ -1,12 +1,16 @@
 "use client";
 
-import React from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
+import Image from "next/image";
+import Link from "next/link";
+import type { TEMPLATE } from "@/app/(data)/Templates";
+
+interface Props {
+  item: TEMPLATE;
+}
 
 const TemplateCard = (item: TEMPLATE) => {
   return (
-    <Link href={'/dashboard/content/' + item.slug.replace(" ", "-")}>
+    <Link href={`/dashboard/content/${item.slug.replace(" ", "-")}`}>
       <div
         className="
           p-5 rounded-2xl bg-[#5523E8] border border-white/10
@@ -15,7 +19,6 @@ const TemplateCard = (item: TEMPLATE) => {
           hover:scale-105 hover:-translate-y-1 hover:shadow-xl
         "
       >
-        
         <div className="w-14 h-14 rounded-xl bg-white flex items-center justify-center backdrop-blur-sm">
           <Image
             src={item.icon}
