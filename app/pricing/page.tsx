@@ -33,7 +33,7 @@ const cardVariant = {
   },
 };
 
-export default function PricingPage(): JSX.Element {
+export default function PricingPage(){
   const { isSignedIn } = useUser();
   const router = useRouter();
 
@@ -105,7 +105,7 @@ export default function PricingPage(): JSX.Element {
               </div>
             </motion.div>
 
-            {/* PRO */}
+           
             <motion.div variants={cardVariant} whileHover={{ y: -6, scale: 1.02 }}>
               <div className="rounded-2xl p-8 shadow-xl bg-white min-h-[320px]">
                 <div className="h-3 rounded-t-2xl -mt-6 mb-6 bg-[#B6E723]" />

@@ -62,7 +62,7 @@ const features: Feature[] = [
   },
 ];
 
-export default function FeaturesPage(): JSX.Element {
+export default function FeaturesPage() {
   const [flipped, setFlipped] = useState<Record<number, boolean>>({});
 
   const toggleFlip = (id: number) => {
