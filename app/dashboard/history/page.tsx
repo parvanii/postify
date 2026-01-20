@@ -1,4 +1,3 @@
-
 import Templates from "@/app/(data)/Templates";
 import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
@@ -36,10 +35,7 @@ async function History() {
       aiResponse: r.aiResponse ?? "",
       templateSlug: r.templateSlug ?? "",
       createdBy: r.createdBy ?? "",
-      createdAt:
-        typeof r.createdAt === "string"
-          ? r.createdAt
-          : r.createdAt?.toISOString() ?? "",
+      createdAt: r.createdAt.toISOString(), 
     }));
   }
 
@@ -48,7 +44,7 @@ async function History() {
 
   return (
     <div className="m-5 p-6 rounded-2xl bg-[#5523E8]">
-      {/* HEADER */}
+
       <div className="mb-4">
         <h2 className="text-3xl font-bold text-white">History</h2>
         <p className="text-white/80 mt-1">
@@ -56,7 +52,7 @@ async function History() {
         </p>
       </div>
 
-      {/* TABLE HEADER */}
+   
       <div className="grid grid-cols-7 gap-2 py-3 px-3 rounded-md mb-3 bg-[#E823B6]">
         <h3 className="col-span-2 text-sm font-semibold text-white">TEMPLATE</h3>
         <h3 className="col-span-2 text-sm font-semibold text-white">AI RESP</h3>
@@ -65,7 +61,7 @@ async function History() {
         <h3 className="text-sm font-semibold text-white">COPY</h3>
       </div>
 
-      {/* LIST */}
+  
       <div className="space-y-4">
         {HistoryList.length === 0 ? (
           <div className="p-6 rounded-lg bg-white/10 text-white/80">
@@ -81,7 +77,7 @@ async function History() {
                 className="rounded-lg overflow-hidden"
               >
                 <div className="grid grid-cols-7 items-center gap-2 py-4 px-3 bg-white/5">
-                  {/* TEMPLATE */}
+               
                   <div className="col-span-2 flex items-center gap-3">
                     {tpl?.icon ? (
                       <Image
@@ -105,17 +101,17 @@ async function History() {
                     </div>
                   </div>
 
-                  {/* AI RESPONSE */}
+            
                   <div className="col-span-2 text-white line-clamp-3">
                     {item.aiResponse}
                   </div>
 
-                  {/* DATE */}
+        \
                   <div className="text-white/80 text-sm">
                     {item.createdAt}
                   </div>
 
-                  {/* WORD COUNT */}
+       
                   <div className="text-white/80 text-sm">
                     {item.aiResponse.length}
                   </div>
