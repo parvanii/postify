@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import type { TEMPLATE } from "@/app/(data)/Templates";
+import templates from "@/app/(data)/Templates";
+type TEMPLATE = (typeof templates)[number];
+
 
 interface Props {
   item: TEMPLATE;
